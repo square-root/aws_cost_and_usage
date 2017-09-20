@@ -1,4 +1,4 @@
-connection: "aws_optimizer"
+connection: "awscost-athena"
 
 # include all the views
 include: "*.view"
