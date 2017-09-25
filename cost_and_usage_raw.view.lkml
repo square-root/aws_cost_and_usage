@@ -1,12 +1,6 @@
-view: cost_and_usage {
-  # Or, you could make this view a derived table, like this:
-  derived_table: {
-    sql: SELECT
-        *
-      FROM aws_optimizer.cost_and_usage_raw
-      WHERE identity_lineitemid != 'identity/LineItemId'
-      ;;
-  }
+view: cost_and_usage_raw {
+  sql_table_name: aws_optimizer.cost_and_usage_raw ;;
+  suggestions: no
 
   dimension: bill_billing_entity {
     type: string
@@ -505,27 +499,27 @@ view: cost_and_usage {
     hidden: yes
     type: string
     sql: CASE
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Mumbai)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Mumbai)' THEN '19.075984'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Seoul)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Seoul)' THEN '37.566535'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Singapore)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Singapore)' THEN '1.352083'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Sydney)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Sydney)' THEN '-33.868820'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Tokyo)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Tokyo)' THEN '35.689487'
-          WHEN ${TABLE}.product_tolocation = 'Australia' OR ${TABLE}.product_tolocationtype = 'Australia' THEN '-25.274398'
-          WHEN ${TABLE}.product_tolocation = 'Canada' OR ${TABLE}.product_tolocationtype = 'Canada' THEN '56.130366'
-          WHEN ${TABLE}.product_tolocation = 'Canada (Central)' OR ${TABLE}.product_tolocationtype = 'Canada (Central)' THEN '56.130366'
-          WHEN ${TABLE}.product_tolocation = 'EU (Frankfurt)' OR ${TABLE}.product_tolocationtype = 'EU (Frankfurt)' THEN '50.110922'
-          WHEN ${TABLE}.product_tolocation = 'EU (Ireland)' OR ${TABLE}.product_tolocationtype = 'EU (Ireland)' THEN '53.142367'
-          WHEN ${TABLE}.product_tolocation = 'India' OR ${TABLE}.product_tolocationtype = 'India' THEN  '20.593684'
-          WHEN ${TABLE}.product_tolocation = 'Japan' OR ${TABLE}.product_tolocationtype = 'Japan' THEN '36.204824'
-          WHEN ${TABLE}.product_tolocation = 'South America (Sao Paulo)' OR ${TABLE}.product_tolocationtype = 'South America (Sao Paulo)' THEN '-23.550520'
-          WHEN ${TABLE}.product_tolocation = 'South America' OR ${TABLE}.product_tolocationtype = 'South America' THEN  '-23.550520'
-          WHEN ${TABLE}.product_tolocation = 'US East (N. Virginia)' OR ${TABLE}.product_tolocationtype = 'US East (N. Virginia)' THEN '37.431573'
-          WHEN ${TABLE}.product_tolocation = 'US East (Ohio)' OR ${TABLE}.product_tolocationtype = 'US East (Ohio)' THEN '40.417287'
-          WHEN ${TABLE}.product_tolocation = 'US West (N. California)' OR ${TABLE}.product_tolocationtype = 'US West (N. California)' THEN '38.837522'
-          WHEN ${TABLE}.product_tolocation = 'US WEST (Oregon)' OR ${TABLE}.product_tolocationtype = 'US WEST (Oregon)' THEN '43.804133'
-          ELSE 'Not labeled'
-          END
-              ;;
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Mumbai)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Mumbai)' THEN '19.075984'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Seoul)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Seoul)' THEN '37.566535'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Singapore)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Singapore)' THEN '1.352083'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Sydney)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Sydney)' THEN '-33.868820'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Tokyo)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Tokyo)' THEN '35.689487'
+    WHEN ${TABLE}.product_tolocation = 'Australia' OR ${TABLE}.product_tolocationtype = 'Australia' THEN '-25.274398'
+    WHEN ${TABLE}.product_tolocation = 'Canada' OR ${TABLE}.product_tolocationtype = 'Canada' THEN '56.130366'
+    WHEN ${TABLE}.product_tolocation = 'Canada (Central)' OR ${TABLE}.product_tolocationtype = 'Canada (Central)' THEN '56.130366'
+    WHEN ${TABLE}.product_tolocation = 'EU (Frankfurt)' OR ${TABLE}.product_tolocationtype = 'EU (Frankfurt)' THEN '50.110922'
+    WHEN ${TABLE}.product_tolocation = 'EU (Ireland)' OR ${TABLE}.product_tolocationtype = 'EU (Ireland)' THEN '53.142367'
+    WHEN ${TABLE}.product_tolocation = 'India' OR ${TABLE}.product_tolocationtype = 'India' THEN  '20.593684'
+    WHEN ${TABLE}.product_tolocation = 'Japan' OR ${TABLE}.product_tolocationtype = 'Japan' THEN '36.204824'
+    WHEN ${TABLE}.product_tolocation = 'South America (Sao Paulo)' OR ${TABLE}.product_tolocationtype = 'South America (Sao Paulo)' THEN '-23.550520'
+    WHEN ${TABLE}.product_tolocation = 'South America' OR ${TABLE}.product_tolocationtype = 'South America' THEN  '-23.550520'
+    WHEN ${TABLE}.product_tolocation = 'US East (N. Virginia)' OR ${TABLE}.product_tolocationtype = 'US East (N. Virginia)' THEN '37.431573'
+    WHEN ${TABLE}.product_tolocation = 'US East (Ohio)' OR ${TABLE}.product_tolocationtype = 'US East (Ohio)' THEN '40.417287'
+    WHEN ${TABLE}.product_tolocation = 'US West (N. California)' OR ${TABLE}.product_tolocationtype = 'US West (N. California)' THEN '38.837522'
+    WHEN ${TABLE}.product_tolocation = 'US WEST (Oregon)' OR ${TABLE}.product_tolocationtype = 'US WEST (Oregon)' THEN '43.804133'
+    ELSE 'Not labeled'
+    END
+        ;;
   }
 
   dimension: to_location_long {
@@ -533,27 +527,27 @@ view: cost_and_usage {
     hidden: yes
     type: string
     sql: CASE
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Mumbai)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Mumbai)' THEN '72.877656'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Seoul)' OR  ${TABLE}.product_tolocationtype = 'Asia Pacific (Seoul)' THEN '126.977969'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Singapore)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Singapore)' THEN '103.819836'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Sydney)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Sydney)' THEN '151.209296'
-          WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Tokyo)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Tokyo)' THEN '139.691706'
-          WHEN ${TABLE}.product_tolocation = 'Australia' OR ${TABLE}.product_tolocationtype = 'Australia' THEN '133.775136'
-          WHEN ${TABLE}.product_tolocation = 'Canada' OR ${TABLE}.product_tolocationtype  = 'Canada' THEN  '-106.346771'
-          WHEN ${TABLE}.product_tolocation = 'Canada (Central)' OR ${TABLE}.product_tolocationtype = 'Canada (Central)' THEN '-106.346771'
-          WHEN ${TABLE}.product_tolocation = 'EU (Frankfurt)' OR ${TABLE}.product_tolocationtype = 'EU (Frankfurt)' THEN '8.682127'
-          WHEN ${TABLE}.product_tolocation = 'EU (Ireland)' OR ${TABLE}.product_tolocationtype = 'EU (Ireland)' THEN '-7.692054'
-          WHEN ${TABLE}.product_tolocation = 'India' OR ${TABLE}.product_tolocationtype = 'India' THEN '78.962880'
-          WHEN ${TABLE}.product_tolocation = 'Japan' OR ${TABLE}.product_tolocationtype = 'Japan' THEN '138.252924'
-          WHEN ${TABLE}.product_tolocation = 'South America (Sao Paulo)' OR ${TABLE}.product_tolocationtype = 'South America (Sao Paulo)' THEN '-46.633309'
-          WHEN ${TABLE}.product_tolocation = 'South America' OR ${TABLE}.product_tolocationtype = 'South America' THEN '-46.633309'
-          WHEN ${TABLE}.product_tolocation = 'US East (N. Virginia)' OR ${TABLE}.product_tolocationtype = 'US East (N. Virginia)' THEN '-78.656894'
-          WHEN ${TABLE}.product_tolocation = 'US East (Ohio)' OR ${TABLE}.product_tolocationtype = 'US East (Ohio)' THEN '-82.907123'
-          WHEN ${TABLE}.product_tolocation = 'US West (N. California)' OR ${TABLE}.product_tolocationtype = 'US West (N. California)' THEN '-120.895824'
-          WHEN ${TABLE}.product_tolocation = 'US West (Oregon)' OR ${TABLE}.product_tolocationtype = 'US West (Oregon)' THEN '-120.554201'
-          ELSE 'Not labeled'
-          END
-              ;;
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Mumbai)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Mumbai)' THEN '72.877656'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Seoul)' OR  ${TABLE}.product_tolocationtype = 'Asia Pacific (Seoul)' THEN '126.977969'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Singapore)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Singapore)' THEN '103.819836'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Sydney)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Sydney)' THEN '151.209296'
+    WHEN ${TABLE}.product_tolocation = 'Asia Pacific (Tokyo)' OR ${TABLE}.product_tolocationtype = 'Asia Pacific (Tokyo)' THEN '139.691706'
+    WHEN ${TABLE}.product_tolocation = 'Australia' OR ${TABLE}.product_tolocationtype = 'Australia' THEN '133.775136'
+    WHEN ${TABLE}.product_tolocation = 'Canada' OR ${TABLE}.product_tolocationtype  = 'Canada' THEN  '-106.346771'
+    WHEN ${TABLE}.product_tolocation = 'Canada (Central)' OR ${TABLE}.product_tolocationtype = 'Canada (Central)' THEN '-106.346771'
+    WHEN ${TABLE}.product_tolocation = 'EU (Frankfurt)' OR ${TABLE}.product_tolocationtype = 'EU (Frankfurt)' THEN '8.682127'
+    WHEN ${TABLE}.product_tolocation = 'EU (Ireland)' OR ${TABLE}.product_tolocationtype = 'EU (Ireland)' THEN '-7.692054'
+    WHEN ${TABLE}.product_tolocation = 'India' OR ${TABLE}.product_tolocationtype = 'India' THEN '78.962880'
+    WHEN ${TABLE}.product_tolocation = 'Japan' OR ${TABLE}.product_tolocationtype = 'Japan' THEN '138.252924'
+    WHEN ${TABLE}.product_tolocation = 'South America (Sao Paulo)' OR ${TABLE}.product_tolocationtype = 'South America (Sao Paulo)' THEN '-46.633309'
+    WHEN ${TABLE}.product_tolocation = 'South America' OR ${TABLE}.product_tolocationtype = 'South America' THEN '-46.633309'
+    WHEN ${TABLE}.product_tolocation = 'US East (N. Virginia)' OR ${TABLE}.product_tolocationtype = 'US East (N. Virginia)' THEN '-78.656894'
+    WHEN ${TABLE}.product_tolocation = 'US East (Ohio)' OR ${TABLE}.product_tolocationtype = 'US East (Ohio)' THEN '-82.907123'
+    WHEN ${TABLE}.product_tolocation = 'US West (N. California)' OR ${TABLE}.product_tolocationtype = 'US West (N. California)' THEN '-120.895824'
+    WHEN ${TABLE}.product_tolocation = 'US West (Oregon)' OR ${TABLE}.product_tolocationtype = 'US West (Oregon)' THEN '-120.554201'
+    ELSE 'Not labeled'
+    END
+        ;;
   }
 
   dimension: from_location_type {
@@ -1429,4 +1423,6 @@ view: cost_and_usage {
     type: sum
     sql: ${reservation_unitsperreservation} ;;
   }
+
+
 }
