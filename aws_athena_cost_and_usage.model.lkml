@@ -1,4 +1,4 @@
-connection: "awscost-athena2"
+connection: "awscost-athena"
 
 # include all the views
 include: "*.view"
