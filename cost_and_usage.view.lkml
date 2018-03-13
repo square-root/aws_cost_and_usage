@@ -1010,31 +1010,51 @@ view: cost_and_usage {
 
   ### ENABLE FOR CUSTOM TAGS ###
 
-  dimension: user_name {
-    view_label: "Custom Resource Tagging"
+  dimension: name {
+    view_label: "Custom Resource Tagging - Name"
     type: string
-    sql: ${TABLE}.resourcetags_username ;;
+    sql: case when ${TABLE}.resourcetags_user_name = '' or ${TABLE}.resourcetags_user_name is null
+           then ${TABLE}.resourcetags_user_name2
+           else ${TABLE}.resourcetags_user_name
+         end ;;
   }
 
-  dimension: user_cost_category {
-    view_label: "Custom Resource Tagging"
+  dimension: user_customer {
+    view_label: "Custom Resource Tagging - Customer"
     type: string
-    sql: ${TABLE}.resourcetags_usercostcategory ;;
+    sql: ${TABLE}.resourcetags_user_customer ;;
   }
 
-  dimension: customer_segment {
-    view_label: "Custom Resource Tagging"
+  dimension: user_environment {
+    view_label: "Custom Resource Tagging - Environment"
     type: string
-    sql: CASE
-          WHEN ${user_cost_category} = '744.00000000' THEN 'SMB'
-          WHEN ${user_cost_category} = '' THEN 'Mid-Market'
-          WHEN ${user_cost_category} = 'internal' THEN 'Enterprise'
-          ELSE 'Enterprise'
-          END
-          ;;
+    sql: case when ${TABLE}.resourcetags_user_env = '' or ${TABLE}.resourcetags_user_env is null
+           then ${TABLE}.resourcetags_user_environment
+           else ${TABLE}.resourcetags_user_env
+         end ;;
   }
 
-  ### END EMNABLE FOR CUSTOM TAGS ###
+  dimension: user_hostname {
+    view_label: "Custom Resource Tagging - Hostname"
+    type: string
+    sql: ${TABLE}.resourcetags_user_hostname ;;
+  }
+
+  dimension: user_os {
+    view_label: "Custom Resource Tagging - OS"
+    type: string
+    sql: ${TABLE}.resourcetags_user_os ;;
+  }
+
+  dimension: user_tenant {
+    view_label: "Custom Resource Tagging - Tenant"
+    type: string
+    sql: ${TABLE}.resourcetags_user_tenant ;;
+  }
+
+
+
+  ### END ENABLE FOR CUSTOM TAGS ###
 
 
   measure: count_line_items {
@@ -1406,7 +1426,7 @@ view: cost_and_usage {
     view_label: "Reserved Units"
     description: "The total number of hours across all reserved instances in the subscription."
     type: number
-    sql: (COALESCE(SUM(cost_and_usage_raw.reservation_numberofreservations),0) * COALESCE(SUM(cost_and_usage_raw.reservation_normalizedunitsperreservation),0 ) );;
+    sql: (COALESCE(SUM(cost_and_usage.reservation_numberofreservations),0) * COALESCE(SUM(cost_and_usage.reservation_normalizedunitsperreservation),0 ) );;
   }
 
   measure: total_normalized_reserved_units {
@@ -1422,6 +1442,12 @@ view: cost_and_usage {
     description: "The number of usage units reserved by a single reservation in a given subscription, such as how many hours a single Amazon EC2 RI has reserved."
     type: sum
     sql: ${reservation_unitsperreservation} ;;
+  }
+
+  dimension: billing_month {
+    view_label: "Billing Month"
+    type: string
+    sql: ${TABLE}.billing_month ;;
   }
 
 
