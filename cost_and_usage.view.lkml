@@ -1,6 +1,6 @@
 view: cost_and_usage {
   sql_table_name: cost_and_usage.cost_and_usage ;;
-  suggestions: no
+  suggestions: yes
 
   dimension: bill_billing_entity {
     type: string
@@ -62,15 +62,16 @@ view: cost_and_usage {
 
   dimension: lineitem_blendedcost {
     hidden: yes
-    type: number
-    sql: ${TABLE}.lineitem_blendedcost ;;
+    type: string
+    sql: cast(${TABLE}.lineitem_blendedcost as real) ;;
   }
+
 
   dimension: blended_rate {
     view_label: "Line Items (Individual Charges)"
     description: "The rate applied to this line item for a consolidated billing account in an organization."
     type: number
-    sql: ${TABLE}.lineitem_blendedrate ;;
+    sql: cast(case when ${TABLE}.lineitem_blendedrate  = '' then null else ${TABLE}.lineitem_blendedrate end as real) ;;
   }
 
   dimension: lineitem_currencycode {
@@ -178,14 +179,14 @@ view: cost_and_usage {
   dimension: lineitem_unblendedcost {
     type: number
     hidden: yes
-    sql: ${TABLE}.lineitem_unblendedcost ;;
+    sql: cast(${TABLE}.lineitem_unblendedcost as real) ;;
   }
 
   dimension: unblended_rate {
     view_label: "Line Items (Individual Charges)"
     description: "The rate that this line item would have been charged for an unconsolidated account."
     type: number
-    sql: ${TABLE}.lineitem_unblendedrate ;;
+    sql: cast(case when ${TABLE}.lineitem_unblendedrate = '' then null else ${TABLE}.lineitem_unblendedrate end as real) ;;
   }
 
   dimension: lineitem_usageaccountid {
@@ -200,7 +201,7 @@ view: cost_and_usage {
   dimension: lineitem_usageamount {
     type: number
     hidden: yes
-    sql: ${TABLE}.lineitem_usageamount ;;
+    sql: cast(${TABLE}.lineitem_usageamount as real) ;;
   }
 
   dimension_group: usage_end {
@@ -976,13 +977,13 @@ view: cost_and_usage {
   dimension: reservation_unitsperreservation {
     type: string
     hidden: yes
-    sql: ${TABLE}.reservation_normalizedunitsperreservation ;;
+    sql: cast(case when ${TABLE}.reservation_normalizedunitsperreservation = '' then null else ${TABLE}.reservation_normalizedunitsperreservation end as real) ;;
   }
 
   dimension: reservation_numberofreservations {
     type: number
     hidden: yes
-    sql: ${TABLE}.reservation_numberofreservations ;;
+    sql: cast(case when ${TABLE}.reservation_numberofreservations = '' then null else ${TABLE}.reservation_numberofreservations end as real) ;;
   }
 
   dimension: reservation_arn {
@@ -995,7 +996,7 @@ view: cost_and_usage {
   dimension: reservation_totalreservednormalizedunits {
     hidden: yes
     type: string
-    sql: ${TABLE}.reservation_totalreservednormalizedunits ;;
+    sql: cast(case when ${TABLE}.reservation_totalreservednormalizedunits = '' then null else ${TABLE}.reservation_totalreservednormalizedunits end as real) ;;
   }
 
   dimension: reservation_totalreservedunits {
@@ -1426,7 +1427,7 @@ view: cost_and_usage {
     view_label: "Reserved Units"
     description: "The total number of hours across all reserved instances in the subscription."
     type: number
-    sql: (COALESCE(SUM(cost_and_usage.reservation_numberofreservations),0) * COALESCE(SUM(cost_and_usage.reservation_normalizedunitsperreservation),0 ) );;
+    sql: (COALESCE(SUM(${reservation_numberofreservations}),0) * COALESCE(SUM(${reservation_unitsperreservation}),0 ) );;
   }
 
   measure: total_normalized_reserved_units {
