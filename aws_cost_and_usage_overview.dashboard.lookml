@@ -1,6 +1,15 @@
 - dashboard: aws_cost_and_usage_overview
   title: AWS Cost and Usage Overview
   layout: newspaper
+
+  filters:
+  - name: billing_month
+    title: Billing Month
+    type: field_filter
+    model: aws_athena_cost_and_usage
+    explore: cost_and_usage
+    field: cost_and_usage.billing_month
+
   elements:
   - name: Total Cost Lastest Week
     title: Total Cost Lastest Week
@@ -418,7 +427,7 @@
     fill_fields:
     - cost_and_usage.usage_start_month
     sorts:
-    - cost_and_usage.total_blended_cost desc
+    - cost_and_usage.usage_start_month
     limit: 500
     column_limit: 50
     dynamic_fields:
@@ -711,6 +720,8 @@
     - cost_and_usage.average_blended_cost_per_month
     - cost_and_usage.total_blended_cost
     - cost_and_usage.total_reserved_blended_cost
+    listen:
+      billing_month: cost_and_usage.billing_month
     sorts:
     - cost_and_usage.total_blended_cost desc
     limit: 10
@@ -811,6 +822,8 @@
     - cost_and_usage.ri_line_item
     pivots:
     - cost_and_usage.ri_line_item
+    listen:
+      billing_month: cost_and_usage.billing_month
     sorts:
     - cost_and_usage.total_blended_cost desc 0
     - cost_and_usage.ri_line_item
@@ -897,6 +910,8 @@
     - cost_and_usage.average_blended_cost_per_month
     - cost_and_usage.total_blended_cost
     - cost_and_usage.total_reserved_blended_cost
+    listen:
+      billing_month: cost_and_usage.billing_month
     sorts:
     - cost_and_usage.total_blended_cost desc
     limit: 10
@@ -995,6 +1010,8 @@
     - cost_and_usage.ri_line_item
     pivots:
     - cost_and_usage.ri_line_item
+    listen:
+      billing_month: cost_and_usage.billing_month
     sorts:
     - cost_and_usage.total_blended_cost desc 1
     - cost_and_usage.ri_line_item 0
@@ -1069,6 +1086,96 @@
       - id: cost_and_usage.total_blended_cost
         name: Line Items (Individual Charges) Total Blended Cost
     row: 45
+    col: 0
+    width: 12
+    height: 13
+  - name: Cost by Tenant (Full Detail)
+    title: Cost by Tenant (Full Detail)
+    model: aws_athena_cost_and_usage
+    explore: cost_and_usage
+    type: table
+    fields:
+    - cost_and_usage.user_tenant
+    - cost_and_usage.total_blended_cost
+    - cost_and_usage.average_blended_cost_per_month
+    - cost_and_usage.ri_line_item
+    pivots:
+    - cost_and_usage.ri_line_item
+    listen:
+      billing_month: cost_and_usage.billing_month
+    sorts:
+    - cost_and_usage.total_blended_cost desc 0
+    - cost_and_usage.ri_line_item
+    column_limit: 50
+    query_timezone: America/Los_Angeles
+    show_view_names: true
+    show_row_numbers: true
+    truncate_column_names: false
+    hide_totals: false
+    hide_row_totals: false
+    table_theme: gray
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    conditional_formatting_ignored_fields: []
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_value_labels: false
+    font_size: 12
+    stacking: ''
+    label_density: 25
+    legend_position: center
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    y_axis_combined: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    x_axis_scale: auto
+    y_axis_scale_mode: linear
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    show_null_points: true
+    point_style: circle
+    interpolation: linear
+    series_types: {}
+    series_colors:
+      cost_and_usage.total_blended_cost: "#3B4260"
+    y_axes:
+    - label:
+      maxValue:
+      minValue:
+      orientation: top
+      showLabels: true
+      showValues: false
+      tickDensity: default
+      tickDensityCustom: 5
+      type: linear
+      unpinAxis: false
+      valueFormat:
+      series:
+      - id: cost_and_usage.average_blended_cost_per_month
+        name: Line Items (Individual Charges) Average Blended Cost per Month
+    - label: ''
+      maxValue:
+      minValue:
+      orientation: bottom
+      showLabels: true
+      showValues: true
+      tickDensity: default
+      tickDensityCustom: 5
+      type: linear
+      unpinAxis: false
+      valueFormat:
+      series:
+      - id: cost_and_usage.total_blended_cost
+        name: Line Items (Individual Charges) Total Blended Cost
+    row: 58
     col: 0
     width: 12
     height: 13
