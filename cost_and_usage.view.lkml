@@ -1445,6 +1445,30 @@ view: cost_and_usage {
     sql: ${reservation_unitsperreservation} ;;
   }
 
+  measure: amortized_upfront_cost_for_usage {
+    label: "Amortized Up-front Cost for Usage"
+    view_label: "Amort Up-front Cost for Usage"
+    description: "really not sure - gorman"
+    type: sum
+    sql: cast(case when ${TABLE}.reservation_AmortizedUpfrontCostForUsage  = '' then null else ${TABLE}.reservation_AmortizedUpfrontCostForUsage end as real) ;;
+  }
+
+  measure: amortized_upfront_fee_for_billing_period {
+    label: "Amortized Up-front Fee for Billing Period"
+    view_label: "Amort Up-front Fee for Billing Period"
+    description: "really not sure - gorman"
+    type: sum
+    sql: cast(case when ${TABLE}.reservation_AmortizedUpfrontFeeForBillingPeriod  = '' then null else ${TABLE}.reservation_AmortizedUpfrontFeeForBillingPeriod end as real) ;;
+  }
+
+  measure: unused_amortized_upfront_fee_for_billing_period {
+    label: "Unused Amortized Up-front Fee for Billing Period"
+    view_label: "Unused Amort Up-front Fee for Billing Period"
+    description: "really not sure - gorman"
+    type: sum
+    sql: cast(case when ${TABLE}.reservation_UnusedAmortizedUpfrontFeeForBillingPeriod  = '' then null else ${TABLE}.reservation_UnusedAmortizedUpfrontFeeForBillingPeriod end as real) ;;
+  }
+
   dimension: billing_month {
     view_label: "Billing Month"
     type: string
