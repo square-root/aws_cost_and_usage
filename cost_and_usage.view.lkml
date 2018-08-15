@@ -1053,6 +1053,12 @@ view: cost_and_usage {
     sql: ${TABLE}.resourcetags_user_tenant ;;
   }
 
+  dimension: logical_env {
+    view_label: "Custom Resource Tagging - Logical Env"
+    type: string
+    sql: ${TABLE}.resourcetags_user_logical_env ;;
+  }
+
 
 
   ### END ENABLE FOR CUSTOM TAGS ###
